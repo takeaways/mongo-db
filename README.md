@@ -2,21 +2,21 @@
 
 몽고디비 학습하기
 
-#### 몽고디비 유래
+## 1) 몽고디비 유래
 
 1. Humongouse : 휴몽고스, 거대한
 
-#### 다운로드
+## 2) 다운로드
 
 1. https://mongodb.com 에서 운영환경에 맞게 다운로드 하면됩니다.
 2. Program Files/MongoDB/Server/3.2/bin 환경변수를 설정한다.
 
-#### data, log 폴더 생성
+## 3) data, log 폴더 생성
 
 1. 데이터 폴더 : C:\Program Files\MongoDB\data
 2. 로그 폴더 : C:\Program Files\MongoDB\log
 
-#### MongoDB 실행
+## 4) MongoDB 실행
 
 - 서버를 실행시킬때 데이터 폴더 경로를 꼭 지정해줘야 한다
 
@@ -26,7 +26,7 @@ or
 
 2. mongod --dbpath "C:\Program Files\MongoDB\data"
 
-#### 몽고디비 자동 실행을 위한 설정
+## 5) 몽고디비 자동 실행을 위한 설정
 
 1. mongod.cfg 파일 만들기
    <pre>
@@ -34,11 +34,11 @@ or
    #데이터베이스 폴더
    dbpatch = C:\Program Files\MongoDB\data
 
-# mongod 포트
+## 6) mongod 포트
 
 port = 27017
 
-# 로그파일
+## 7) 로그파일
 
 logpath = C:\Program Files\MongoDB\logs\mongo.log
 
@@ -50,7 +50,7 @@ rest = true
 2. 윈도우 서비스 등록하기
 - "C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe" -f "C:\Program Files\MongoDB\mongod.cfg" -install
 
-#### 접속 및 확인
+## 8) 접속 및 확인
 
 1. mongo
 2. show dbs
@@ -127,3 +127,25 @@ rest = true
   });
   </code>
   </pre>
+
+# Robomongo 관리툴 사용하기
+
+## 1) 관리툴의 장점
+
+1. 난해한 구조인 json 형태의 데이터를 일목요연 하게 보여준다.
+2. 컬렉션, 도큐먼트의 관리가 쉽다.
+3. 단점 : 한글 지원이 정상적으로 되지 않는다 그렇기 떄문에 다른 에디터에서 작성된 데이터를 넣는 방법이 있다.
+
+## 2) 원격서버에 접속하는 방법
+
+1. SSH 텝에서 - Use SSH tunnel 을 이용
+
+## 3) 좌측 메뉴
+
+1. 서버의 상태
+2. 버전확인
+3. show log를 통한 기동로그 확인.
+
+## 4) 데이터를 입력하는 방법
+
+1. insert 명령어 or tool에서 insert document로 직접 데이터를 입력한다.
