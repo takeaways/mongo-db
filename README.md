@@ -159,7 +159,7 @@ rest = true<br/>
 
 ## Robo를 이용해서 데이터베이스 생성 및 컬렉션 관리해보기
 
-# 05) find()를 통한 조회
+# [5] find()를 통한 조회
 
 ## 1. 학습을 위한 컬렉션 생성하기
 
@@ -410,3 +410,131 @@ rest = true<br/>
 - db.user.remove({
   "name":"lee"
   })
+
+# [8] Group 관련 함수 사용하기
+
+- Group 함수 사용을 위한 데이터 삽입
+- Robo에서 실행 시키면 됩니다.
+  <pre>
+  <code>
+  db.getCollection('board2').insert(
+  [
+    {
+      title: 'MongoDB Overview',
+      description: 'MongoDB is no sql database',
+      by_user: 'tutorials point',
+      url: 'http://www.tutorialspoint.com',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 100
+    },
+    {
+      title: 'NoSQL Overview',
+      description: 'No sql database is very fast',
+      by_user: 'tutorials point',
+      url: 'http://www.tutorialspoint.com',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 10
+    },
+    {
+      title: 'Neo4j Overview',
+      description: 'Neo4j is no sql database',
+      by_user: 'Neo4j',
+      url: 'http://www.neo4j.com',
+      tags: ['neo4j', 'database', 'NoSQL'],
+      likes: 750
+    }
+  ]
+  )
+  </code>
+  </pre>
+
+## 1. Group를 구해보기
+
+- 필드를 지칭하기 위해서는 $기호를 사용한다 ex) $name 이름 컬럼
+
+### 1-1 count
+
+1. \_id 컬럼을 \$by_user값으로 그룹한다.
+2. 두 번째 인자 값으로 그룹의 결과를 보여줄 것이다.
+3. \$sum 함수를 사용해서 그룹 지을때 값을 어떤 식으로 표현할 지 보여준다.
+4. 다음과 같은경우는 필드를 1씩 판단하여 갯 수를 나타낸다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",count:{
+  $sum:1
+  }
+  }}
+  ])
+
+### 1-2 sum
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  sum_count:{$sum:"$likes"}
+  }}
+  ])
+
+### 1-3 average
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  avg_cnt:{$avg:"$likes"}
+  }}
+  ])
+
+### 1-4 min
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  min_cnt:{$min:"$likes"}
+  }}
+  ])
+
+### 1-5 max
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  max_cnt:{$max:"$likes"}
+  }}
+  ])
+
+### 1-6 first
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  first:{$first:"$likes"}
+  }}
+  ])
+
+### 1-6 last
+
+1. \_id 컬럼을 \$by_user값으로 그룹하며
+2. 그룹할 때 \$like 컬럼의 값을 함친다.
+
+- db.board2.aggregate([
+  {$group:{
+  _id:"$by_user",
+  last:{$last:"$likes"}
+  }}
+  ])
