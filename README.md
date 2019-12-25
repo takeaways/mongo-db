@@ -162,7 +162,8 @@ rest = true
 
 # 05) find()를 통한 조회
 
-1. 학습을 위한 컬렉션 생성하기
+## 1. 학습을 위한 컬렉션 생성하기
+
    <pre>
    <code>
    db.getCollection('board').insert(
@@ -213,7 +214,7 @@ rest = true
 </code>
 </pre>
 
-2. 기본 Equal(=) 조회
+## 2. 기본 Equal(=) 조회
 
 - select \* from board where = 'Kim' (SQL)
 - db.board.find({"name":"Jang"})
@@ -221,22 +222,23 @@ rest = true
 - db.table's name.findOne({"name":"Jang"}) : 하나만 찾을 경우 [sql에서는 limit = 1]
 - db.board.find({"date":"2016-11-10","name":"Kang"}) : AND 조건을 줄경우
 
-3. And 와 Or 조건으로 검색하기
+## 3. And 와 Or 조건으로 검색하기
 
 - db.board.find({\$or:[{"date":"2016-11-10"},{"name":"Kang"}]})
 - db.board.find({\$and:[{"date":"2016-11-10"},{"name":"Kang"}]})
 - db.board.find({$and:[{"date":"2016-11-10"},{$or:[{"name":"Kang"},{"name":"Jang"}]}]}) : and 와 or 조건 같이 사용하기
 
-4. like 조건 : [ Sql ] : where field like '%a%'<br/><br/>
-   [4-1] '%a%': a 가 들어가는 모든 문자열<br/>
-   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a/}) : 정규표현식을 사용한다.<br/>
-   &nbsp;&nbsp;&nbsp;[2] db.board.find({"name":{\$regex:'a'}})<br/><br/>
-   [4-2] '%a: a 로 끝 나는 모든 문자열<br/>
-   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a\$/}) : 정규표현식을 사용한다.<br/>
-   [4-3] 'a%': a 로 시작하는 모든 문자열<br/>
-   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/^a/}) : 정규표현식을 사용한다.<br/>
+## 4. like 조건 : [ Sql ] : where field like '%a%'<br/><br/>
 
-5. 부등호 검색 : [ Sql ] : where hit > 10 { $gt | $lt | $gte | $lte | \$ne : "조건"}
+[4-1] '%a%': a 가 들어가는 모든 문자열<br/>
+&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a/}) : 정규표현식을 사용한다.<br/>
+&nbsp;&nbsp;&nbsp;[2] db.board.find({"name":{\$regex:'a'}})<br/><br/>
+[4-2] '%a: a 로 끝 나는 모든 문자열<br/>
+&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a\$/}) : 정규표현식을 사용한다.<br/>
+[4-3] 'a%': a 로 시작하는 모든 문자열<br/>
+&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/^a/}) : 정규표현식을 사용한다.<br/>
+
+## 5. 부등호 검색 : [ Sql ] : where hit > 10 { $gt | $lt | $gte | $lte | \$ne : "조건"}
 
 - db.board.find({"hits":{\$gt:10}})
 - db.board.find({"hits":{\$lt:10}})
@@ -246,7 +248,7 @@ rest = true
   $and:[ {"hits":{$gt:10}}, {"hits":{\$lt:25}} ]
   })
 
-6. Exist 있는지 없는지 {\$exists:"조건"}
+## 6. Exist 있는지 없는지 {\$exists:"조건"}
 
 - 테스트 데이터 추가
 - db.board.insert(
@@ -260,7 +262,7 @@ rest = true
   )
 - db.board.find({"name":{\$exists:true}]}})
 
-7. 테스트 해보기
+## 7. 테스트 해보기
 
 - and 와 or 조건은 배열로 조건 케이스들을 넣어주고, 조건을 만들 때는 객체 형태로 만든다.
 - db.board.find({
@@ -269,25 +271,138 @@ rest = true
 
 # 06) find() 고급 조회, sort(), limit(), skip() 등
 
-1. sort() 정렬
+## 1. sort() 정렬
 
 - db.board.find().sort({"hits":1}) : 오름차순
 - db.board.find().sort({"hits":-1}) : 내림차순
 - db.board.find({"name":{\$exists:true}}).sort({"date":-1,"hits":-1}) : 중복 sort 조건
 
-2. limit() 제한
+## 2. limit() 제한
 
 - db.getCollection('board').find().limit(1)
 - db.board.find().sort({"name":1}).limit(4)
 
-3. skip() 건너뛰기, 0부터 시작
+## 3. skip() 건너뛰기, 0부터 시작
 
 - db.board.find().skip(1) : 0이면 전부 다가져옵니다.
 
-4. distinct 구분하기 Group By 중복을 하나로 그룹진 배열리턴
+## 4. distinct 구분하기 Group By 중복을 하나로 그룹진 배열리턴
 
 - db.board.distinct("date")
 
-5. 사용해보기
+## 5. 사용해보기
 
 - db.board.find({$and:[{"hits":{$gte:5}}, {"hits":{\$lte:15}}]}).sort({"hits":-1}).skip(1).limit(2)
+
+# 07) Insert(), update() , remove() 데이터 처리
+
+## 1. insert
+
+- db.user.insert({
+  "name":"Gi",
+  "age":20
+  }) : 1건 삽입
+- db.user.insertOne({
+  "name":"bob",
+  "age":11,
+  "status":"G"
+  })
+- db.user.insert([
+  {
+  "name":"hong",
+  "age":100,
+  "status":"A"
+  },{
+  "name":"kin",
+  "age":73,
+  "status":"B"
+  },{
+  "name":"lee",
+  "age":23,
+  "status":"C"
+  }
+  ]) : 다수건 삽입
+- db.user.insertMany([
+  {
+  "name":"hong",
+  "age":100,
+  "status":"A"
+  },{
+  "name":"kin",
+  "age":73,
+  "status":"B"
+  },{
+  "name":"lee",
+  "age":23,
+  "status":"C"
+  }
+  ])
+
+## 2. update : [Sql] update table set name="Lee", age="30" where name="lee"
+
+### 1. 한 건 업데이트
+
+- db.user.update({
+  "status":"C"
+  },{
+  "status":"C",
+  "name":"lee",
+  "age":30
+  })
+- db.user.updateOne({
+  "name":"Suzy",
+  },{\$set:{
+  "name":"Suzy",
+  "age":28,
+  "status":"S10"  
+  }});
+
+### 2. insert and update : 있으면 업데이트를하고, 없으면 만들어라
+
+- db.user.update({
+  "name":"min"
+  },{
+  "name":"min",
+  "age":22,
+  "status":"SS"
+  },{
+  upsert:true // update and insert 하겠다.
+  })
+
+### 3. 여럿건 업데이트
+
+- db.user.updateMany({
+  "name":"hong"
+  },{\$set:{
+  "name":"Home",
+  "age":44,
+  "status":"FF"
+  }})
+  - db.user.update({
+    "name":"hong"
+    },{\$set:{
+    "name":"Home",
+    "age":44,
+    "status":"FF"
+    }},{multi:true}>)
+
+## 3. remove 데이터 삭제
+
+### 1. 모든데이터 삭제
+
+- db.user.remove({})
+
+### 2. 특정 한 개 삭제
+
+- db.user.deleteOne({
+  "name":"lee"
+  })
+
+### 3. 특정 데이터 모두 삭제
+
+- db.user.deleteMany({
+  "name":"lee"
+  })
+- db.user.remove({
+  "name":"lee"
+  })
