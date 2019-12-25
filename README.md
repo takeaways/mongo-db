@@ -1,54 +1,53 @@
-# 01 ) 몽고디비 학습하기
+# [1] 몽고디비 학습하기
 
 ## 1) 몽고디비 유래
 
-1. Humongouse : 휴몽고스, 거대한
+### 1. Humongouse : 휴몽고스, 거대한
 
 ## 2) 다운로드
 
-1. https://mongodb.com 에서 운영환경에 맞게 다운로드 하면됩니다.
-2. Program Files/MongoDB/Server/3.2/bin 환경변수를 설정한다.
+### 1. https://mongodb.com 에서 운영환경에 맞게 다운로드 하면됩니다.
+
+### 2. Program Files/MongoDB/Server/3.2/bin 환경변수를 설정한다.
 
 ## 3) data, log 폴더 생성
 
-1. 데이터 폴더 : C:\Program Files\MongoDB\data
-2. 로그 폴더 : C:\Program Files\MongoDB\log
+### 1. 데이터 폴더 : C:\Program Files\MongoDB\data
+
+### 2. 로그 폴더 : C:\Program Files\MongoDB\log
 
 ## 4) MongoDB 실행
 
 - 서버를 실행시킬때 데이터 폴더 경로를 꼭 지정해줘야 한다
 
-1. mongod.exe --dbpath "C:\Program Files\MongoDB\data"
+### 1. mongod.exe --dbpath "C:\Program Files\MongoDB\data"
 
 or
 
-2. mongod --dbpath "C:\Program Files\MongoDB\data"
+### 2. mongod --dbpath "C:\Program Files\MongoDB\data"
 
 ## 5) 몽고디비 자동 실행을 위한 설정
 
-1. mongod.cfg 파일 만들기
-   <pre>
-   <code>
-   #데이터베이스 폴더
-   dbpatch = C:\Program Files\MongoDB\data
+### 1. mongod.cfg 파일 만들기
 
-## 6) mongod 포트
-
-port = 27017
-
-## 7) 로그파일
-
-logpath = C:\Program Files\MongoDB\logs\mongo.log
-
+<pre>
+<code>
+#데이터베이스 폴더
+dbpatch = C:\Program Files\MongoDB\data<br/>
+#mongod 포트
+port = 27017<br/>
+#로그파일
+logpath = C:\Program Files\MongoDB\logs\mongo.log<br/>
 #웹 관리 사용
-rest = true
+rest = true<br/>
 </code>
-
 </pre>
-2. 윈도우 서비스 등록하기
+
+### 2. 윈도우 서비스 등록하기
+
 - "C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe" -f "C:\Program Files\MongoDB\mongod.cfg" -install
 
-## 8) 접속 및 확인
+## 6) 접속 및 확인
 
 1. mongo
 2. show dbs
@@ -56,7 +55,7 @@ rest = true
 4. show tables (테이블 컬렉션)
 5. db.TABLE.find().pretty()
 
-# 02) MongoDB 개념과 RDBMS 비교
+# [2] MongoDB 개념과 RDBMS 비교
 
 1. 대용량 빅 데이터에 적합한 NoSQL 데이터 베이스입니다.
 2. NoSQL 데이터 베이스 중 사용 인지도 1위이다.
@@ -126,7 +125,7 @@ rest = true
   </code>
   </pre>
 
-# 03) Robomongo 관리툴 사용하기
+# [3] Robomongo 관리툴 사용하기
 
 ## 1) 관리툴의 장점
 
@@ -148,7 +147,7 @@ rest = true
 
 1. insert 명령어 or tool에서 insert document로 직접 데이터를 입력한다.
 
-# 04) DataBase와 Collection(table) 관리
+# [4] DataBase와 Collection(table) 관리
 
 ## 데이터 베이스 명령어
 
@@ -228,15 +227,20 @@ rest = true
 - db.board.find({\$and:[{"date":"2016-11-10"},{"name":"Kang"}]})
 - db.board.find({$and:[{"date":"2016-11-10"},{$or:[{"name":"Kang"},{"name":"Jang"}]}]}) : and 와 or 조건 같이 사용하기
 
-## 4. like 조건 : [ Sql ] : where field like '%a%'<br/><br/>
+## 4. like 조건 : [ Sql ] : where field like '%a%'<br/>
 
-[4-1] '%a%': a 가 들어가는 모든 문자열<br/>
-&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a/}) : 정규표현식을 사용한다.<br/>
-&nbsp;&nbsp;&nbsp;[2] db.board.find({"name":{\$regex:'a'}})<br/><br/>
-[4-2] '%a: a 로 끝 나는 모든 문자열<br/>
-&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a\$/}) : 정규표현식을 사용한다.<br/>
-[4-3] 'a%': a 로 시작하는 모든 문자열<br/>
-&nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/^a/}) : 정규표현식을 사용한다.<br/>
+### 4-1 '%a%': a 가 들어가는 모든 문자열<br/>
+
+- [1] db.board.find({"name":/a/}) : 정규표현식을 사용한다.
+- [2] db.board.find({"name":{\$regex:'a'}})
+
+### 4-2 '%a: a 로 끝 나는 모든 문자열
+
+- [1] db.board.find({"name":/a\$/}) : 정규표현식을 사용한다.
+
+### 4-3 'a%': a 로 시작하는 모든 문자열
+
+- [1] db.board.find({"name":/^a/}) : 정규표현식을 사용한다.
 
 ## 5. 부등호 검색 : [ Sql ] : where hit > 10 { $gt | $lt | $gte | $lte | \$ne : "조건"}
 
@@ -269,7 +273,7 @@ rest = true
   $or:[{$and:[{"date":"2016-11-10"},{"name":/e/}]}, {"hits":{\$gte:20}}]
   })
 
-# 06) find() 고급 조회, sort(), limit(), skip() 등
+# [6] find() 고급 조회, sort(), limit(), skip() 등
 
 ## 1. sort() 정렬
 
@@ -294,7 +298,7 @@ rest = true
 
 - db.board.find({$and:[{"hits":{$gte:5}}, {"hits":{\$lte:15}}]}).sort({"hits":-1}).skip(1).limit(2)
 
-# 07) Insert(), update() , remove() 데이터 처리
+# [7] Insert(), update() , remove() 데이터 처리
 
 ## 1. insert
 
@@ -340,7 +344,7 @@ rest = true
 
 ## 2. update : [Sql] update table set name="Lee", age="30" where name="lee"
 
-### 1. 한 건 업데이트
+### 2-1. 한 건 업데이트
 
 - db.user.update({
   "status":"C"
@@ -357,7 +361,7 @@ rest = true
   "status":"S10"  
   }});
 
-### 2. insert and update : 있으면 업데이트를하고, 없으면 만들어라
+### 2-2. insert and update : 있으면 업데이트를하고, 없으면 만들어라
 
 - db.user.update({
   "name":"min"
@@ -369,7 +373,7 @@ rest = true
   upsert:true // update and insert 하겠다.
   })
 
-### 3. 여럿건 업데이트
+### 2-3. 여럿건 업데이트
 
 - db.user.updateMany({
   "name":"hong"
@@ -388,17 +392,17 @@ rest = true
 
 ## 3. remove 데이터 삭제
 
-### 1. 모든데이터 삭제
+### 3-1. 모든데이터 삭제
 
 - db.user.remove({})
 
-### 2. 특정 한 개 삭제
+### 3-2. 특정 한 개 삭제
 
 - db.user.deleteOne({
   "name":"lee"
   })
 
-### 3. 특정 데이터 모두 삭제
+### 3-3. 특정 데이터 모두 삭제
 
 - db.user.deleteMany({
   "name":"lee"
