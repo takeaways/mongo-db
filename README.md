@@ -1,6 +1,4 @@
-# mongo-db
-
-몽고디비 학습하기
+# 01 ) 몽고디비 학습하기
 
 ## 1) 몽고디비 유래
 
@@ -128,7 +126,7 @@ rest = true
   </code>
   </pre>
 
-# Robomongo 관리툴 사용하기
+# 03) Robomongo 관리툴 사용하기
 
 ## 1) 관리툴의 장점
 
@@ -149,3 +147,124 @@ rest = true
 ## 4) 데이터를 입력하는 방법
 
 1. insert 명령어 or tool에서 insert document로 직접 데이터를 입력한다.
+
+# 04) DataBase와 Collection(table) 관리
+
+## 데이터 베이스 명령어
+
+1. 컬렉션을 생성할 시점에 데이터 베이스가 생성이된다.
+2. use database 이름 : 해당 디비가 없다고 하더라도 데이터 베이스로 접근이 가능하다.
+3. db.createCollection("test")
+4. db.tablename.drop() : 데잍 베이스가 지워진다.
+5. 해당 db에 테이블(컬렉션)이 다 사라지면 데이터 베이스가 자동으로 사라진다.
+
+## Robo를 이용해서 데이터베이스 생성 및 컬렉션 관리해보기
+
+# 05) find()를 통한 조회
+
+1. 학습을 위한 컬렉션 생성하기
+   <pre>
+   <code>
+   db.getCollection('board').insert(
+   [
+   	{
+   		"idx":1,
+   		"subject":"Board title 1",
+   		"content":"This is content 1",
+   		"name":"Kim",
+   		"hits": 5,
+   		"date":"2016-11-10"
+   	},
+   	{
+   		"idx":2,
+   		"subject":"Board title 2",
+   		"content":"This is content 2",
+   		"name":"Kang",
+   		"hits": 10,
+   		"date":"2016-11-10"
+   	},
+   	{
+   		"idx":3,
+   		"subject":"Board title 3",
+   		"content":"This is content 3",
+   		"name":"Lee",
+   		"hits": 15,
+   		"date":"2016-11-10"
+   	},
+   	{
+   		"idx":4,
+   		"subject":"Board title 4",
+   		"content":"This is content 4",
+   		"name":"Park",
+   		"hits": 20,
+   		"date":"2016-11-11"
+   	},
+   	{
+   		"idx":5,
+   		"subject":"Board title 5",
+   		"content":"This is content 5",
+   		"name":"Jang",
+   		"hits": 25,
+   		"date":"2016-11-11"
+   	}
+   ]
+   )
+
+</code>
+</pre>
+
+2. 기본 Equal(=) 조회
+
+- select \* from board where = 'Kim' (SQL)
+- db.board.find({"name":"Jang"})
+- db.getCollection.find({"name":"Jann"})
+- db.table's name.findOne({"name":"Jang"}) : 하나만 찾을 경우 [sql에서는 limit = 1]
+- db.board.find({"date":"2016-11-10","name":"Kang"}) : AND 조건을 줄경우
+
+3. And 와 Or 조건으로 검색하기
+
+- db.board.find({\$or:[{"date":"2016-11-10"},{"name":"Kang"}]})
+- db.board.find({\$and:[{"date":"2016-11-10"},{"name":"Kang"}]})
+- db.board.find({$and:[{"date":"2016-11-10"},{$or:[{"name":"Kang"},{"name":"Jang"}]}]}) : and 와 or 조건 같이 사용하기
+
+4. like 조건 : [ Sql ] : where field like '%a%'<br/><br/>
+   [4-1] '%a%': a 가 들어가는 모든 문자열<br/>
+   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a/}) : 정규표현식을 사용한다.<br/>
+   &nbsp;&nbsp;&nbsp;[2] db.board.find({"name":{\$regex:'a'}})<br/><br/>
+   [4-2] '%a: a 로 끝 나는 모든 문자열<br/>
+   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/a\$/}) : 정규표현식을 사용한다.<br/>
+   [4-3] 'a%': a 로 시작하는 모든 문자열<br/>
+   &nbsp;&nbsp;&nbsp;[1] db.board.find({"name":/^a/}) : 정규표현식을 사용한다.<br/>
+
+5. 부등호 검색 : [ Sql ] : where hit > 10 { $gt | $lt | $gte | $lte | \$ne : "조건"}
+
+- db.board.find({"hits":{\$gt:10}})
+- db.board.find({"hits":{\$lt:10}})
+- db.board.find({"hits":{\$gte:10}}) : e를 붙여서 사용한다. >= 10
+- db.board.find({"hits":{\$ne:10}}) : e를 붙여서 사용한다. != 10
+- db.board.find({
+  $and:[ {"hits":{$gt:10}}, {"hits":{\$lt:25}} ]
+  })
+
+6. Exist 있는지 없는지 {\$exists:"조건"}
+
+- 테스트 데이터 추가
+- db.board.insert(
+  {
+  "idx":6,
+  "subject":"Board title 6"
+  "content":"This is content 6",
+  "hits":6,
+  "date:"2016-11-10"
+  }
+  )
+- db.board.find({"name":{\$exists:true}]}})
+
+7. 테스트 해보기
+
+- and 와 or 조건은 배열로 조건 케이스들을 넣어주고, 조건을 만들 때는 객체 형태로 만든다.
+- db.board.find({
+  $or:[{$and:[{"date":"2016-11-10"},{"name":/e/}]}, {"hits":{\$gte:20}}]
+  })
+
+#
