@@ -591,3 +591,45 @@ rest = true<br/>
     db.board.find().skip(10).limit(5)
   </code>
   </pre>
+
+# [10] Index 생성 및 삭제
+
+- index 학습을 위해서 데이터를 입력해줍니다.
+  <pre>
+  <code>
+  db.board.insert(
+     [
+       { subject: "Board title 1", "name":"Kim 1", "hits":10 },
+       { subject: "Board title 2", "name":"Kim 2", "hits":10 },
+       { subject: "Board title 3", "name":"Kim 3", "hits":10 },
+       { subject: "Board title 4", "name":"Kim 4", "hits":10 },
+       { subject: "Board title 5", "name":"Kim 5", "hits":10 },
+       { subject: "Board title 6", "name":"Kim 6", "hits":10 },
+       { subject: "Board title 7", "name":"Kim 7", "hits":10 },
+       { subject: "Board title 8", "name":"Kim 8", "hits":10 },
+       { subject: "Board title 9", "name":"Kim 9", "hits":10 },
+       { subject: "Board title 10", "name":"Kim 10", "hits":10 },
+       { subject: "Board title 11", "name":"Kim 1", "hits":10 },
+       { subject: "Board title 12", "name":"Kim 2", "hits":10 },
+       { subject: "Board title 13", "name":"Kim 3", "hits":10 },
+       { subject: "Board title 14", "name":"Kim 4", "hits":10 },
+       { subject: "Board title 15", "name":"Kim 5", "hits":10 },
+       { subject: "Board title 16", "name":"Kim 6", "hits":10 },
+       { subject: "Board title 17", "name":"Kim 7", "hits":10 },
+       { subject: "Board title 18", "name":"Kim 8", "hits":10 },
+       { subject: "Board title 19", "name":"Kim 9", "hits":10 },
+       { subject: "Board title 20", "name":"Kim 10", "hits":10 },
+     ]
+  )
+
+</code>
+</pre>
+
+### 10-1 인덱스 생성해보기
+
+- db.board.createIndex({subject:1}) : 인텍스 생성
+- db.board.getIndexes() : 인덱스 확인
+- db.board.dropIndex({subject:1}): 인덱스 드랍하기
+- db.board.createIndex({subject:1, hits:-1}) : 한 번에 여러 인덱싱
+- db.board.dropIndex({subject:1, hits:-1})
+- db.board.createIndex({subject:1},{unique:true}) : 유니크 인덱스 사용하기
