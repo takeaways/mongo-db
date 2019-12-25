@@ -267,4 +267,27 @@ rest = true
   $or:[{$and:[{"date":"2016-11-10"},{"name":/e/}]}, {"hits":{\$gte:20}}]
   })
 
-#
+# 06) find() 고급 조회, sort(), limit(), skip() 등
+
+1. sort() 정렬
+
+- db.board.find().sort({"hits":1}) : 오름차순
+- db.board.find().sort({"hits":-1}) : 내림차순
+- db.board.find({"name":{\$exists:true}}).sort({"date":-1,"hits":-1}) : 중복 sort 조건
+
+2. limit() 제한
+
+- db.getCollection('board').find().limit(1)
+- db.board.find().sort({"name":1}).limit(4)
+
+3. skip() 건너뛰기, 0부터 시작
+
+- db.board.find().skip(1) : 0이면 전부 다가져옵니다.
+
+4. distinct 구분하기 Group By 중복을 하나로 그룹진 배열리턴
+
+- db.board.distinct("date")
+
+5. 사용해보기
+
+- db.board.find({$and:[{"hits":{$gte:5}}, {"hits":{\$lte:15}}]}).sort({"hits":-1}).skip(1).limit(2)
