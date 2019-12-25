@@ -448,7 +448,7 @@ rest = true<br/>
   </code>
   </pre>
 
-## 1. Group를 구해보기
+## 1. Group 해보기
 
 - 필드를 지칭하기 위해서는 $기호를 사용한다 ex) $name 이름 컬럼
 
@@ -538,3 +538,56 @@ rest = true<br/>
   last:{$last:"$likes"}
   }}
   ])
+
+# [9] 페이징 처리 기법 배우기
+
+- 페이이징 학습을 위한 데이터 삽입
+  <pre>
+  <code>
+  db.board.insert(
+     [
+       { subject: "Board title 1" },
+       { subject: "Board title 2" },
+       { subject: "Board title 3" },
+       { subject: "Board title 4" },
+       { subject: "Board title 5" },
+       { subject: "Board title 6" },
+       { subject: "Board title 7" },
+       { subject: "Board title 8" },
+       { subject: "Board title 9" },
+       { subject: "Board title 10" },
+       { subject: "Board title 11" },
+       { subject: "Board title 12" },
+       { subject: "Board title 13" },
+       { subject: "Board title 14" },
+       { subject: "Board title 15" },
+       { subject: "Board title 16" },
+       { subject: "Board title 17" },
+       { subject: "Board title 18" },
+       { subject: "Board title 19" },
+       { subject: "Board title 20" },
+     ]
+  )
+
+</code>
+</pre>
+
+## 9-1 skip과 limit을 사용하여 페이징
+
+- 페이징 전략
+  <pre>
+  <code>
+  #1 0부터 시작해서 5개만 가져오겠다. 0 ~ 4
+  // start_cnt = {page-1} \* 5;
+  // 1page: 0
+    db.board.find().skip(0).limit(5)
+  #2 5부터 시작해서 5개만 가져오겠다. 5 ~ 9
+  // start_cnt = {2-1} \* 5;
+  // 2page: 5
+    db.board.find().skip(5).limit(5)
+  #3 10부터 시작해서 5개만 가져오겠다. 5 ~ 9
+  // start_cnt = {3-1} \* 5;
+  // 3page: 15
+    db.board.find().skip(10).limit(5)
+  </code>
+  </pre>
